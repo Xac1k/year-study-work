@@ -15,8 +15,8 @@
   [Ссылка](https://academic.oup.com/teamat/article-abstract/13/2/83/1681292?redirectedFrom=fulltext&login=false)
 
 4. Схожий подход к решению задачи
-  
-  Karthik K., Balasubramanian C., Praveen R. Hybrid golden Jackal and moth flame optimization algorithm based coverage path planning in heterogeneous UAV networks //Scientific Reports. – 2025. – Т. 15. – №. 1. С. 31054.
+
+   Karthik K., Balasubramanian C., Praveen R. Hybrid golden Jackal and moth flame optimization algorithm based coverage path planning in heterogeneous UAV networks //Scientific Reports. – 2025. – Т. 15. – №. 1. С. 31054.
   [Ссылка](https://www.nature.com/articles/s41598-025-15345-6)
 
 5. Схожий подход к решению задачи
