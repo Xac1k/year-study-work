@@ -1,15 +1,15 @@
 ###Список литературу Golden Jackal Optimization алгоритм
 1. Основная статья для работы(Курсовой)
 Lou T. et al. Multi-UAV collaborative trajectory planning for 3D terrain based on CS-GJO algorithm //Complex System Modeling and Simulation. – 2024. – Т. 4. – №. 3. – С. 274-291.
-[Ссылка]()
+[Ссылка](https://github.com/Xac1k/year-study-work/blob/main/Sources/Multi-UAV_Collaborative_Trajectory_Planning_for_3D_Terrain_Based_on_CS-GJO_Algorithm.pdf)
 
 2. Первая статья о Golden Jackal Optimization алгоритме(Первоисточник)
 Chopra N., Ansari M. M. Golden jackal optimization: A novel nature-inspired optimizer for engineering applications //Expert Systems with Applications. – 2022. – Т. 198. – С. 116924.
-[Ссылка]()
+[Ссылка](https://github.com/Xac1k/year-study-work/blob/main/Sources/Golden-jackal-optimization-A-novel-nature-inspired-optimizer-for-engineering-applications.pdf)
 
 3. Хаотичсекие карты расположения палаток(Подходы улучшения CS-GJO)
 Crampin M., Heal B. On the chaotic behaviour of the tent map //Teaching Mathematics and its Applications: An International Journal of the IMA. – 1994. – Т. 13. – №. 2. – С. 83-89.
-[Ссылка](https://academic.oup.com/teamat/article-abstract/13/2/83/1681292)
+[Ссылка](https://github.com/Xac1k/year-study-work/blob/main/Sources/liangyang2014.pdf)
 
 4. Схожий подход к решению задачи
 Karthik K., Balasubramanian C., Praveen R. Hybrid golden Jackal and moth flame optimization algorithm based coverage path planning in heterogeneous UAV networks //Scientific Reports. – 2025. – Т. 15. – №. 1. – С. 31054.
