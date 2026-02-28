@@ -29,6 +29,10 @@
    Chen Z., Zhou T., Jiao J. Improved Golden jackal optimization-based 3D path planning of UAV in distribution network inspection //2023 9th International Conference on Electrical Engineering, Control and Robotics (EECR). – IEEE, 2023. – С. 1-5.
   [Ссылка](https://ieeexplore.ieee.org/abstract/document/10149983/)
 
+7. Grey wolf optimizer(Другой алгоритм упомянутый в основной статье)
+   Mirjalili S., Mirjalili S. M., Lewis A. Grey wolf optimizer //Advances in engineering software. – 2014. – Т. 69. – С. 46-61.
+  [Ссылка](https://www.sciencedirect.com/science/article/pii/S0965997813001853)
+
 ### Ревью литературы о UAV path planning (Другие подходы к решению задачи)
   Yang L. et al. A literature review of UAV 3D path planning //Proceeding of the 11th world congress on intelligent control and automation. – IEEE, 2014. – С. 2376-2381.
   [Ссылка](https://github.com/Xac1k/year-study-work/blob/main/Sources/liangyang2014.pdf)
