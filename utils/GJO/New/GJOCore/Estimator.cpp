@@ -5,6 +5,8 @@
 #include "./Estimator.h"
 
 #include <cmath>
+#include <iostream>
+#include <ostream>
 
 double CalculateTotalLength(Entity& entity) {
     double totalLength = 0.0;
@@ -144,12 +146,12 @@ double CalculateDangerous(Entity& e, const SharedThreats& threats, const double 
     return sumOfDangerous;
 };
 
-void Estimator::Estimate(Entities &entities, const SharedThreats &threats) const {
+void Estimator::Estimate(const SharedEntities &entities, const SharedThreats &threats) const {
     for (auto& entity : entities) {
-        const auto totalLength = CalculateTotalLength(entity);
-        const auto heightVariance = CalculateHeightVariance(entity);
-        const auto smooth = CalculateSmooth(entity);
-        const auto dangerous = CalculateDangerous(entity, threats, m_config.coefficients.ThreatAvoidance);
+        const auto totalLength = CalculateTotalLength(*entity);
+        const auto heightVariance = CalculateHeightVariance(*entity);
+        const auto smooth = CalculateSmooth(*entity);
+        const auto dangerous = CalculateDangerous(*entity, threats, m_config.coefficients.ThreatAvoidance);
 
         double totalCost = 0;
         totalCost += m_config.coefficients.PathMinimizing * totalLength;
@@ -157,7 +159,7 @@ void Estimator::Estimate(Entities &entities, const SharedThreats &threats) const
         totalCost += m_config.coefficients.SmoothMaximizing * smooth;
         totalCost += m_config.coefficients.ThreatImportance * dangerous;
 
-        entity.SetEstimation(totalCost);
+        entity->SetEstimation(totalCost);
     }
 }
 

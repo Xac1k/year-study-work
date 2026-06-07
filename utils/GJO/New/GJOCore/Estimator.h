@@ -9,7 +9,7 @@
 class Estimator {
 public:
     //Устанавливает оценку каждой особи
-    void Estimate(Entities&, const SharedThreats&) const;
+    void Estimate(const SharedEntities&, const SharedThreats&) const;
 
     struct ImportanceCoefficients {
         double ThreatAvoidance;

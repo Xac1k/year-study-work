@@ -7,7 +7,7 @@
 #include "EntityGeneration/EntityGenerator.h"
 #include "EntityGeneration/EntityFactory.h"
 
-std::shared_ptr<DependencyContainer> NewDependencyContainer(Estimator::Config estimatorConfig, Updater::Config updaterConfig, EntityGenerator::Config genConfig) {
+std::shared_ptr<DependencyContainer> NewDependencyContainer(Estimator::Config estimatorConfig, Updater::Config updaterConfig, EntityGenerator::Config genConfig, size_t batchSize) {
     auto container = std::make_shared<DependencyContainer>(DependencyContainer{});
 
     EntityFactory entityFactory;
@@ -25,6 +25,7 @@ std::shared_ptr<DependencyContainer> NewDependencyContainer(Estimator::Config es
     container->entityEstimator = std::make_shared<Estimator>(entityEstimator);
     container->entityFactory = std::make_shared<EntityFactory>(entityFactory);
     container->entityUpdater = std::make_shared<Updater>(entityUpdater);
+    container->batchSize = batchSize;
 
     return container;
 }

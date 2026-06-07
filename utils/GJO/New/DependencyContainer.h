@@ -16,8 +16,9 @@ struct DependencyContainer {
     std::shared_ptr<EntityFactory> entityFactory;
     std::shared_ptr<Estimator> entityEstimator;
     std::shared_ptr<Updater> entityUpdater;
+    size_t batchSize;
 };
 
-std::shared_ptr<DependencyContainer> NewDependencyContainer(Estimator::Config estimatorConfig, Updater::Config updaterConfig, EntityGenerator::Config genConfig);
+std::shared_ptr<DependencyContainer> NewDependencyContainer(Estimator::Config estimatorConfig, Updater::Config updaterConfig, EntityGenerator::Config genConfig, size_t batchSize);
 
 #endif //MAIN_DEPENDENCYCONTAINER_H

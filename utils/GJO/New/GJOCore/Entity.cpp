@@ -4,7 +4,6 @@
 
 #include "./Entity.h"
 #include <utility>
-#include <asm-generic/errno.h>
 
 Entity::Entity(const Entity &e)
 : m_points(e.m_points)
@@ -50,7 +49,9 @@ Entity &Entity::SetEstimation(const double &mark) {
 }
 
 Entity Entity::operator*(const Entity &other) const {
-    Entity result;
+    const std::vector<Point3d> points(m_points.size());
+    Entity result(points);
+
     for (size_t i = 0; i < m_points.size(); ++i) {
         result.m_points[i] = m_points[i] * other.m_points[i];
     }
@@ -58,7 +59,8 @@ Entity Entity::operator*(const Entity &other) const {
 };
 
 Entity Entity::Abs() const noexcept {
-    Entity result;
+    const std::vector<Point3d> points(m_points.size());
+    Entity result(points);
     for (size_t i = 0; i < m_points.size(); ++i) {
         result.m_points[i] = m_points[i].abs();
     }
@@ -77,7 +79,8 @@ Entity Entity::operator/(const double &divisor) const {
 }
 
 Entity Entity::operator-(const double &multiplier) const noexcept {
-    Entity result;
+    const std::vector<Point3d> points(m_points.size());
+    Entity result(points);
     for (size_t i = 0; i < m_points.size(); ++i) {
         result.m_points[i] = m_points[i] * multiplier;
     }
@@ -85,7 +88,8 @@ Entity Entity::operator-(const double &multiplier) const noexcept {
 }
 
 Entity Entity::operator+(const Entity &other) const noexcept {
-    Entity result;
+    const std::vector<Point3d> points(m_points.size());
+    Entity result(points);
     for (size_t i = 0; i < m_points.size(); ++i) {
         result.m_points[i] = m_points[i] + other.m_points[i];
     }
@@ -93,7 +97,8 @@ Entity Entity::operator+(const Entity &other) const noexcept {
 }
 
 Entity Entity::operator-(const Entity &other) const noexcept {
-    Entity result;
+    const std::vector<Point3d> points(m_points.size());
+    Entity result(points);
     for (size_t i = 0; i < m_points.size(); ++i) {
         result.m_points[i] = m_points[i] - other.m_points[i];
     }
@@ -108,7 +113,7 @@ size_t Entity::GetSize() const {
     return m_points.size();
 }
 
-Point3d& Entity::operator[](size_t index) {
+Point3d& Entity::operator[](const size_t index) {
     return m_points[index];
 }
 

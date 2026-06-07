@@ -4,60 +4,8 @@
 
 #include "./JsonDependencyContainerParser.h"
 
-void ValidPathOrThrow(const crow::json::rvalue& source, const std::string& path, const char& delimiter) {
-    std::istringstream streamPath(path);
+#include "../Utils.h"
 
-    std::string breadCrumbs;
-    std::vector<std::string> pathComponents;
-    while (std::getline(streamPath, breadCrumbs, delimiter))
-        pathComponents.push_back(breadCrumbs);
-
-    if (pathComponents.empty())
-        throw std::invalid_argument("path are not valid");
-
-
-    const crow::json::rvalue* checkable = &source;
-    for (auto& crumb: pathComponents) {
-        if (!checkable->has(crumb))
-            throw std::invalid_argument("source doesn't have a path: " + path);
-
-        checkable = &((*checkable)[crumb]);
-    }
-}
-
-Range GetRange(const crow::json::rvalue& source, const std::string& sourceName) {
-    if (!source.has(sourceName) || source[sourceName].t() != crow::json::type::Object) {
-        throw std::invalid_argument("config::" + sourceName + " is missing or not a object");
-    }
-    const auto& range = source[sourceName];
-    if (!range.has("min") || range["min"].t() != crow::json::type::Number) {
-        throw std::invalid_argument("config::min is missing or not a number");
-    }
-    if (!range.has("max") || range["max"].t() != crow::json::type::Number) {
-        throw std::invalid_argument("config::max is missing or not a number");
-    }
-
-    return Range{
-        .min = range["min"].d(),
-        .max = range["max"].d()
-    };
-}
-
-size_t GetSizeT(const crow::json::rvalue& source, const std::string& sourceName) {
-    if (!source.has(sourceName) || source[sourceName].t() != crow::json::type::Number) {
-        throw std::invalid_argument("config::" + sourceName + " is missing or not a number");
-    }
-
-    return source[sourceName].u();
-}
-
-double GetDouble(const crow::json::rvalue& source, const std::string& sourceName) {
-    if (!source.has(sourceName) || source[sourceName].t() != crow::json::type::Number) {
-        throw std::invalid_argument("config::" + sourceName + " is missing or not a number");
-    }
-
-    return source[sourceName].d();
-}
 
 EntityGenerator::Config GetEntityGeneratorConfig(const crow::json::rvalue& source) {
     if (!source.has("generator") || source["generator"].t() != crow::json::type::Object)
@@ -111,10 +59,16 @@ Estimator::Config GetEstimatorConfig(const crow::json::rvalue &source) {
     }};
 }
 
+size_t GetBatchSize(const crow::json::rvalue &source) {
+    ValidPathOrThrow(source, "generator:batchSize", ':');
+    return GetSizeT(source["generator"], "batchSize");
+}
+
 std::shared_ptr<DependencyContainer> JsonDependencyContainerParser::Parse(const crow::json::rvalue source) {
     const Estimator::Config estimatorConfig = GetEstimatorConfig(source);
     const Updater::Config updaterConfig = GetUpdaterConfig(source);
     const EntityGenerator::Config generatorConfig = GetEntityGeneratorConfig(source);
+    const size_t batchSize = GetBatchSize(source);
 
-    return NewDependencyContainer(estimatorConfig, updaterConfig, generatorConfig);
+    return NewDependencyContainer(estimatorConfig, updaterConfig, generatorConfig, batchSize);
 }

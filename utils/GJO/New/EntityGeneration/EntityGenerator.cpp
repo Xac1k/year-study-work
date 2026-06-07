@@ -8,10 +8,14 @@
 #include <stdexcept>
 
 void NextChaoticTentView(double& value) {
-    if (0 <= value and value <= 0.5 ) {
+    if (value < 0.0) value = 0.0;
+    if (value > 1.0) value = 1.0;
+
+    if (value <= 0.5) {
         value = value / 0.5;
+    } else {
+        value = (1.0 - value) / 0.5;
     }
-    value = 1 - value / (1 - 0.5);
 }
 
 void NextChaoticTentView(Point3d& point) {

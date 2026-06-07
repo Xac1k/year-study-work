@@ -19,7 +19,7 @@ void Updater::Update(Entities &entities, const SharedThreats& threats, const Est
 
     const auto& config = m_config.value();
     for (size_t iter = 0; iter < config.maxIterations; iter++) {
-        estimator.Estimate(entities, threats);
+        estimator.Estimate(sharedEntities, threats);
         UpdateEnergy(sharedEntities, iter);
         UpdateTrajectories(sharedEntities);
     }
@@ -61,11 +61,21 @@ std::tuple<SharedEntity, SharedEntity> FindMaleFemalePair(const SharedEntities &
     return std::make_tuple(maleEntity, femaleEntity);
 }
 
+std::tuple<Entity, Entity> GetRlVectorsWithoutShiftingStartEnd(const SharedEntity &prey, LevyFlight& levyGenerator) {
+    auto rl1 = Entity(levyGenerator.GetPoints(prey->GetSize()));
+    auto rl2 = Entity(levyGenerator.GetPoints(prey->GetSize()));
+    rl1[0] = {0, 0, 0};
+    rl2[0] = {0, 0, 0};
+    rl1[prey->GetSize() - 1] = {0, 0, 0};
+    rl2[prey->GetSize() - 1] = {0, 0, 0};
+
+    return std::make_tuple(rl1, rl2);
+}
+
 void Updater::UpdateTrajectories(const SharedEntities &entities) {
     const auto [male, female] = FindMaleFemalePair(entities);
     for (auto& prey : entities) {
-        const auto rl1 = Entity(m_levyGenerator.GetPoints(prey->GetSize()));
-        const auto rl2 = Entity(m_levyGenerator.GetPoints(prey->GetSize()));
+        auto [rl1, rl2] = GetRlVectorsWithoutShiftingStartEnd(prey, m_levyGenerator);
         Entity y1, y2;
 
         if (std::abs(prey->GetEnergy()) < 1) {
@@ -77,7 +87,7 @@ void Updater::UpdateTrajectories(const SharedEntities &entities) {
             y2 = *female -  prey->GetEnergy() * (*female - rl2 * *prey).Abs();
         }
 
-        *prey = (y1 + y2) / 2;
+        *prey.get() = (y1 + y2) / 2;
     }
 }
 

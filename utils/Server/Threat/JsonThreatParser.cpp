@@ -4,24 +4,7 @@
 
 #include "./JsonThreatParser.h"
 
-Point3d GetJsonPoint(const crow::json::rvalue& candidate) {
-    if (!candidate.has("center"))
-        throw std::runtime_error("No center in json object.");
-
-    const auto& pointCandidate = candidate["center"];
-
-    if (!pointCandidate.has("x") || !pointCandidate.has("y") || !pointCandidate.has("z"))
-        throw std::runtime_error("Not a valid json object. Missing `x`, `y` or `z`");
-
-    if (pointCandidate["x"].t() != crow::json::type::Number)
-        throw std::runtime_error("Not a valid json object. X isn't a number.");
-    if (pointCandidate["y"].t() != crow::json::type::Number)
-        throw std::runtime_error("Not a valid json object. Y isn't a number.");
-    if (pointCandidate["z"].t() != crow::json::type::Number)
-        throw std::runtime_error("Not a valid json object. Z isn't a number.");
-
-    return {pointCandidate["x"].d(), pointCandidate["y"].d(), pointCandidate["z"].d()};
-}
+#include "../Utils.h"
 
 ThreatType GetJsonTypeOfThreat(const crow::json::rvalue& candidate) {
     if (!candidate.has("type") || candidate["type"].t() != crow::json::type::String)
@@ -59,7 +42,7 @@ double GetJsonHeight(const crow::json::rvalue& candidate) {
 SharedThreat GetJsonThreat(const crow::json::rvalue& candidate) {
     const auto type = GetJsonTypeOfThreat(candidate);
     const auto radius = GetJsonRadius(candidate);
-    const auto center = GetJsonPoint(candidate);
+    const auto center = GetJsonPoint(candidate, "center");
     if (type == ThreatType::Air_Defense) {
         const auto height = GetJsonHeight(candidate);
         AirDefenseThreat threat;

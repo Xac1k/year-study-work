@@ -8,8 +8,22 @@
 #include <filesystem>
 
 #include "utils/GJO/New/DependencyContainer.h"
+#include "utils/GJO/New/EntityGeneration/EntityFactory.h"
 #include "utils/Server/DependencyContainer/JsonDependencyContainerParser.h"
+#include "utils/Server/Task/Task.h"
 #include "utils/Server/Threat/JsonThreatParser.h"
+
+Entities SolveTasks(SharedThreats& threats,  std::shared_ptr<DependencyContainer>& container, const Tasks& tasks) {
+    Entities population;
+    for (auto [fst, snd] : tasks) {
+        auto batch = container->entityFactory->NewEntities(container->batchSize, fst, snd);
+        std::ranges::copy(batch, std::back_inserter(population));
+    }
+
+    container->entityUpdater->Update(population, threats, *container->entityEstimator);
+
+    return population;
+}
 
 int main(int argc, char *argv[]) {
     crow::SimpleApp app;
@@ -28,9 +42,13 @@ int main(int argc, char *argv[]) {
         try {
             JsonThreatParser threatParser;
             JsonDependencyContainerParser containerParser;
+            TaskParser taskParser;
 
             auto threats = threatParser.Parse(jsonBody["threats"]);
             auto container = containerParser.Parse(jsonBody["dependencyContainer"]);
+            auto tasks = taskParser.Parse(jsonBody);
+
+            auto minimizedPaths = SolveTasks(threats, container, tasks);
         }
         catch (std::exception& e) {
             return crow::response(400, e.what());
